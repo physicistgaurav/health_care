@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { authentication } from "../firebase/config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
 
 const MyStatusBar = ({ backgroundColor, ...props }) => (
@@ -24,40 +24,32 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 );
 
-const LoginScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = React.useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { setLoggedInUser } = useAuth();
 
   const inputRef = React.useRef();
   const passwordRef = React.useRef();
 
-  const handleSignIn = async () => {
-    setIsLoading(true);
-
-    signInWithEmailAndPassword(authentication, email, password)
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(authentication, email, password)
       .then((res) => {
-        console.log("successful");
+        console.log(res.user);
         setLoggedInUser(res.user);
       })
-
-      .catch((err) => {
-        console.log(err);
-        setError("Incorrect Email/Password");
-      })
-      .finally(() => setIsLoading(false));
+      .catch((re) => {
+        console.log(re);
+      });
   };
-
   return (
     <>
       <MyStatusBar backgroundColor="#5E8D48" barStyle="light-content" />
       <View style={styles.container}>
         <Image source={require("../assets/logo.png")} style={styles.logo} />
-        <Text style={styles.headingLabel}>Log in</Text>
+        <Text style={styles.headingLabel}>Sign Up</Text>
 
         <TouchableOpacity
           onPress={() => inputRef.current.focus()}
@@ -95,11 +87,9 @@ const LoginScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.forgot}>
-          <Text style={styles.forgot2}>Forgot Password </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSignIn} style={styles.button}>
-          <Text style={styles.text}>Login</Text>
+
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+          <Text style={styles.text}>Sign Up</Text>
         </TouchableOpacity>
         <Text
           style={{
@@ -111,30 +101,11 @@ const LoginScreen = ({ navigation }) => {
         >
           or
         </Text>
-        <View style={{ flexDirection: "row" }}>
-          <View
-            style={StyleSheet.flatten([styles.iconCircle, { marginRight: 20 }])}
-          >
-            <TouchableOpacity>
-              <Icon name={"google"} size={20} color="#302298" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={StyleSheet.flatten([
-              styles.iconCircle,
-              { backgroundColor: "#302298" },
-            ])}
-          >
-            <TouchableOpacity onPress={() => alert("chupchap google chala")}>
-              <Icon name={"facebook"} size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
 
         <Text style={styles.downText}>
-          Don't have an account?
-          <TouchableOpacity onPress={() => navigation.navigate("signup")}>
-            <Text style={styles.signup}>Sign Up</Text>
+          Already have an account?
+          <TouchableOpacity onPress={() => navigation.navigate("login")}>
+            <Text style={styles.signup}>Log in</Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -142,7 +113,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
