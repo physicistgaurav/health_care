@@ -2,6 +2,7 @@
   "expo": {
     "name": "health_care",
     "slug": "health_care",
+    "plugins": ["@react-native-google-signin/google-signin"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -15,9 +16,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lizardgaurav.healthcare"
     },
     "android": {
+      "package": "com.lizardgaurav.health_care",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

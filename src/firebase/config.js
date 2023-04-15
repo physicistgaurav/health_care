@@ -6,6 +6,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
+// import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
 // import {
 //   FIRE_BASE_API_KEY,
 //   FIRE_BASE_AUTH_DOMAIN,
@@ -18,6 +20,12 @@ import "firebase/compat/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+
+// GoogleSignin.configure({
+//   webClientId:
+//     "1020051476927-ep4voelafcl0deec348fa4o6rf4qk2t2.apps.googleusercontent.com",
+//   offlineAccess: true,
+// });
 
 const firebaseConfig = {
   apiKey: "AIzaSyDArUDMUPrUnY6BpNOif5C-08Dba4UhPzc",

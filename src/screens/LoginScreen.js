@@ -16,6 +16,17 @@ import { authentication } from "../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
 
+// import auth from "@react-native-firebase/auth";
+// import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+// web :  893295189175-78bpcg2cseldkf8lq3qbmur6qc90deq3.apps.googleusercontent.com
+// iOS : 893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com
+// android : 893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com
+
+WebBrowser.maybeCompleteAuthSession();
+
 const MyStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
     <SafeAreaView>
@@ -35,6 +46,53 @@ const LoginScreen = ({ navigation }) => {
 
   const inputRef = React.useRef();
   const passwordRef = React.useRef();
+
+  const [acessToken, setAcessToken] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId:
+      "893295189175-br0gja4o6qc08ngkgtotoo8203mkr1r3.apps.googleusercontent.com",
+    iosClientId:
+      "893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com",
+    androidClientId:
+      "893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com",
+  });
+
+  React.useEffect(() => {
+    if (response?.type === "success") {
+      setAcessToken(response.authentication.accessToken);
+      acessToken && fetchUserInfo();
+    }
+  }, [response, acessToken]);
+
+  async function fetchUserInfo() {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${acessToken}`,
+      },
+    });
+    const userInfo = await response.json();
+    setUser(userInfo);
+  }
+
+  const ShowUserInfo = () => {
+    if (user) {
+      return (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text style={{ fontSize: 35, fontWeight: "bold", marginBottom: 20 }}>
+            Welcome
+          </Text>
+          <Image
+            source={{ uri: user.picture }}
+            style={{ width: 100, height: 100, borderRadius: 50 }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>{user.name}</Text>
+        </View>
+      );
+    }
+  };
 
   const handleSignIn = async () => {
     setIsLoading(true);
@@ -115,7 +173,12 @@ const LoginScreen = ({ navigation }) => {
           <View
             style={StyleSheet.flatten([styles.iconCircle, { marginRight: 20 }])}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+              disabled={!request}
+              onPress={() => {
+                promptAsync();
+              }}
+            >
               <Icon name={"google"} size={20} color="#302298" />
             </TouchableOpacity>
           </View>
