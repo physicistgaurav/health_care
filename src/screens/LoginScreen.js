@@ -43,14 +43,7 @@ const LoginScreen = ({ navigation }) => {
 
   const [acessToken, setAcessToken] = React.useState(null);
   const [user, setUser] = React.useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId:
-      "893295189175-br0gja4o6qc08ngkgtotoo8203mkr1r3.apps.googleusercontent.com",
-    iosClientId:
-      "893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com",
-    androidClientId:
-      "893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com",
-  });
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({});
 
   React.useEffect(() => {
     if (response?.type === "success") {
