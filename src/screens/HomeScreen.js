@@ -258,7 +258,7 @@ const HomeScreen = ({ navigation }) => {
           </Text>
           <View style={styles.DoctorContainer}>
             <FlatList
-              data={doctorDetails}
+              data={filteredItems}
               renderItem={renderCard}
               keyExtractor={(item) => item.id}
               numColumns={2}
