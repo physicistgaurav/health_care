@@ -31,6 +31,7 @@ import {
   Ubuntu_700Bold,
   Ubuntu_700Bold_Italic,
 } from "@expo-google-fonts/ubuntu";
+import { useNavigation } from "@react-navigation/native";
 
 const MyStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -150,25 +151,22 @@ const HomeScreen = ({ navigation }) => {
   //   },
   // ];
 
-  const Card = ({ name, department, rating, image }) => {
+  const Card = ({ name, department, rating, image, screenName }) => {
+    const navigation = useNavigation();
     return (
-      <View style={styles.DoctorCard}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(screenName)}
+        style={styles.DoctorCard}
+      >
         <Image source={{ uri: image }} style={styles.DoctorImage} />
         <Text style={styles.DoctorName}>{name}</Text>
         <Text style={styles.DoctorDepartment}>{department}</Text>
         <Text style={styles.DoctorRating}>{rating} ⭐</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
-  const renderCard = ({ item }) => (
-    <Card
-      name={item.name}
-      department={item.department}
-      rating={item.rating}
-      image={item.image}
-    />
-  );
+  const renderCard = ({ item }) => <Card {...item} />;
 
   return (
     <>
@@ -194,7 +192,7 @@ const HomeScreen = ({ navigation }) => {
               style={styles.searchIcon}
             />
             <TextInput
-              placeholder="Search a doctor or health issue"
+              placeholder="Search your doctor"
               style={styles.inputBox}
               value={query}
               onChangeText={(text) => setQuery(text)}
@@ -223,6 +221,15 @@ const HomeScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
+          <Text
+            style={{
+              fontFamily: "Ubuntu_700Bold",
+              fontSize: 24,
+              margin: 10,
+            }}
+          >
+            Services
+          </Text>
           <View style={{ width: "100%", height: 120 }}>
             <FlatList
               horizontal={true}
