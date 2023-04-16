@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
+  ActivityIndicator,
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
@@ -28,6 +29,7 @@ const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setLoggedInUser } = useAuth();
 
@@ -35,6 +37,7 @@ const SignUpScreen = ({ navigation }) => {
   const passwordRef = React.useRef();
 
   const handleSignUp = () => {
+    setIsLoading(true);
     createUserWithEmailAndPassword(authentication, email, password)
       .then((res) => {
         console.log(res.user);
@@ -42,7 +45,8 @@ const SignUpScreen = ({ navigation }) => {
       })
       .catch((re) => {
         console.log(re);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
   return (
     <>
@@ -90,6 +94,17 @@ const SignUpScreen = ({ navigation }) => {
 
         <TouchableOpacity onPress={handleSignUp} style={styles.button}>
           <Text style={styles.text}>Sign Up</Text>
+          {isLoading && (
+            <ActivityIndicator
+              size="small"
+              color="white"
+              style={{
+                alignSelf: "center",
+                justifyContent: "center",
+                paddingLeft: 10,
+              }}
+            />
+          )}
         </TouchableOpacity>
         <Text
           style={{
@@ -171,6 +186,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
   },
   text: {
     color: "white",
@@ -206,5 +222,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     paddingTop: 5,
+  },
+  errorText: {
+    fontSize: 14,
+    color: "red",
+    marginTop: 10,
+    paddingLeft: 15,
   },
 });

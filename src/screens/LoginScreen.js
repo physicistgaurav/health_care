@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   SafeAreaView,
+  ActivityIndicator,
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
@@ -43,7 +44,14 @@ const LoginScreen = ({ navigation }) => {
 
   const [acessToken, setAcessToken] = React.useState(null);
   const [user, setUser] = React.useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({});
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId:
+      "893295189175-br0gja4o6qc08ngkgtotoo8203mkr1r3.apps.googleusercontent.com",
+    iosClientId:
+      "893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com",
+    androidClientId:
+      "893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com",
+  });
 
   React.useEffect(() => {
     if (response?.type === "success") {
@@ -94,6 +102,7 @@ const LoginScreen = ({ navigation }) => {
         console.log(err);
         setError("Incorrect Email/Password");
       })
+
       .finally(() => setIsLoading(false));
   };
 
@@ -112,6 +121,7 @@ const LoginScreen = ({ navigation }) => {
             ref={inputRef}
             style={styles.TextInput}
             placeholder="Email"
+            defaultValue="gaurav@gmail.com"
             placeholderTextColor="#003f5c"
             onChangeText={(email) => setEmail(email)}
           />
@@ -125,6 +135,7 @@ const LoginScreen = ({ navigation }) => {
             ref={passwordRef}
             style={styles.TextInput}
             placeholder="Password"
+            defaultValue="gaurav123"
             placeholderTextColor="#003f5c"
             secureTextEntry={!showPassword}
             onChangeText={(password) => setPassword(password)}
@@ -147,7 +158,19 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSignIn} style={styles.button}>
           <Text style={styles.text}>Login</Text>
+          {isLoading && (
+            <ActivityIndicator
+              size="small"
+              color="white"
+              style={{
+                alignSelf: "center",
+                justifyContent: "center",
+                paddingLeft: 10,
+              }}
+            />
+          )}
         </TouchableOpacity>
+
         <Text
           style={{
             margin: 5,
@@ -263,6 +286,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
   },
   text: {
     color: "white",
@@ -281,12 +305,6 @@ const styles = StyleSheet.create({
   },
   forgot2: {
     textDecorationLine: "underline",
-    errorText: {
-      fontSize: 14,
-      color: "red",
-      marginTop: 10,
-      paddingLeft: 15,
-    },
     color: "#331ece",
     fontSize: 16,
     fontWeight: "500",
@@ -306,10 +324,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "red",
-    margin: 5,
-    alignSelf: "flex-start",
-    paddingLeft: 45,
+    marginTop: 2,
+    marginBottom: 2,
   },
 });
