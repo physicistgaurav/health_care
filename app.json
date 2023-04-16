@@ -2,7 +2,9 @@
   "expo": {
     "name": "health_care",
     "slug": "health_care",
-    "plugins": ["@react-native-google-signin/google-signin"],
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -28,6 +30,11 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9bf44cd6-84de-40d0-9f95-803ee499d5fb"
+      }
     }
   }
 }

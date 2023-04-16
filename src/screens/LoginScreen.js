@@ -16,14 +16,8 @@ import { authentication } from "../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
 
-// import auth from "@react-native-firebase/auth";
-// import { GoogleSignin } from "@react-native-google-signin/google-signin";
-
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-// web :  893295189175-78bpcg2cseldkf8lq3qbmur6qc90deq3.apps.googleusercontent.com
-// iOS : 893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com
-// android : 893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -49,14 +43,7 @@ const LoginScreen = ({ navigation }) => {
 
   const [acessToken, setAcessToken] = React.useState(null);
   const [user, setUser] = React.useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId:
-      "893295189175-br0gja4o6qc08ngkgtotoo8203mkr1r3.apps.googleusercontent.com",
-    iosClientId:
-      "893295189175-pi8ucgp4bh519mj7beg7un8osk2h49fq.apps.googleusercontent.com",
-    androidClientId:
-      "893295189175-hggj5n2s40280qji3n3q7b5jlak486b6.apps.googleusercontent.com",
-  });
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({});
 
   React.useEffect(() => {
     if (response?.type === "success") {
@@ -132,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={() => passwordRef.current.focus()}
-          style={styles.inputView}
+          style={styles.inputView2}
         >
           <TextInput
             ref={passwordRef}
@@ -153,6 +140,8 @@ const LoginScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </TouchableOpacity>
+        {error && <Text style={styles.errorText}>{error}</Text>}
+
         <TouchableOpacity style={styles.forgot}>
           <Text style={styles.forgot2}>Forgot Password </Text>
         </TouchableOpacity>
@@ -234,6 +223,17 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "transparent",
   },
+  inputView2: {
+    borderWidth: 1,
+    borderColor: "#331ece",
+    borderRadius: 24,
+    width: "80%",
+    height: 60,
+    marginBottom: 10,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "transparent",
+  },
   TextInput: {
     height: 50,
     flex: 1,
@@ -281,6 +281,12 @@ const styles = StyleSheet.create({
   },
   forgot2: {
     textDecorationLine: "underline",
+    errorText: {
+      fontSize: 14,
+      color: "red",
+      marginTop: 10,
+      paddingLeft: 15,
+    },
     color: "#331ece",
     fontSize: 16,
     fontWeight: "500",
@@ -298,5 +304,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     paddingTop: 5,
+  },
+  errorText: {
+    fontSize: 14,
+    color: "red",
+    margin: 5,
+    alignSelf: "flex-start",
+    paddingLeft: 45,
   },
 });
