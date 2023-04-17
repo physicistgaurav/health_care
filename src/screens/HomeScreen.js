@@ -18,18 +18,15 @@ import { FontAwesome } from "react-native-vector-icons";
 import { useAuth } from "../contexts/AuthContext";
 import { authentication } from "../firebase/config";
 import { signOut } from "firebase/auth";
+import * as Font from "expo-font";
 
 import { firebase } from "../firebase/config";
 import {
   useFonts,
   Ubuntu_300Light,
-  Ubuntu_300Light_Italic,
   Ubuntu_400Regular,
-  Ubuntu_400Regular_Italic,
   Ubuntu_500Medium,
-  Ubuntu_500Medium_Italic,
   Ubuntu_700Bold,
-  Ubuntu_700Bold_Italic,
 } from "@expo-google-fonts/ubuntu";
 import { useNavigation } from "@react-navigation/native";
 
@@ -75,13 +72,12 @@ const HomeScreen = ({ navigation }) => {
 
   let [fontsLoaded] = useFonts({
     Ubuntu_300Light,
-    Ubuntu_300Light_Italic,
+
     Ubuntu_400Regular,
-    Ubuntu_400Regular_Italic,
+
     Ubuntu_500Medium,
-    Ubuntu_500Medium_Italic,
+
     Ubuntu_700Bold,
-    Ubuntu_700Bold_Italic,
   });
 
   const filteredItems = doctorDetails.filter((item) =>
@@ -151,13 +147,15 @@ const HomeScreen = ({ navigation }) => {
   //   },
   // ];
 
-  const Card = ({ name, department, rating, image, screenName }) => {
+  const Card = ({ refId, id, name, department, rating, image, screenName }) => {
     const navigation = useNavigation();
+
+    const handleCardPress = () => {
+      navigation.navigate(screenName, { refId });
+    };
+
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate(screenName)}
-        style={styles.DoctorCard}
-      >
+      <TouchableOpacity onPress={handleCardPress} style={styles.DoctorCard}>
         <Image source={{ uri: image }} style={styles.DoctorImage} />
         <Text style={styles.DoctorName}>{name}</Text>
         <Text style={styles.DoctorDepartment}>{department}</Text>
