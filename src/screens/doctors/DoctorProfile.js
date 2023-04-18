@@ -24,9 +24,30 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 );
 
-const DoctorProfile = ({ route }) => {
+const DoctorProfile = ({ route, navigation }) => {
   const { refId } = route.params;
   const [doctorDetails, setDoctorDetails] = useState(null);
+
+  const [myReviews, setMyReviews] = useState([]);
+  const fetchReviews = firebase.firestore().collection("reviews");
+
+  const handleFetchReviews = () => {
+    setMyReviews([]);
+    fetchReviews
+      .where("referenceDoc", "==", refId.trim())
+      .onSnapshot((QuerySnapshot) => {
+        let _reviews = [];
+
+        QuerySnapshot.forEach((doc) => {
+          _reviews.push({ ...doc.data() });
+        });
+        setMyReviews(_reviews);
+      });
+  };
+
+  useEffect(() => {
+    handleFetchReviews();
+  }, [refId]);
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
@@ -58,21 +79,24 @@ const DoctorProfile = ({ route }) => {
     longitudeDelta: 0.0421,
   };
 
-  const reviewerData = doctorDetails.reviewer.map((reviewer, index) => ({
-    reviewer: doctorDetails.reviewer[index],
-    reviewRating: doctorDetails.reviewRating[index],
-    review: doctorDetails.review[index],
-    reviewerImage: doctorDetails.reviewerImage[index],
+  const reviewerData = myReviews.map((reviewList) => ({
+    reviewer: reviewList.reviewer,
+    reviewRating: reviewList.reviewRating,
+    review: reviewList.review,
   }));
 
   const ReviewCard = ({ name, rating, review, reviewerImage }) => {
     return (
       <View style={styles.card}>
         <View style={styles.header}>
-          <Image style={styles.avatar} source={{ uri: reviewerImage }} />
+          <Image
+            style={styles.avatar}
+            source={require("../../assets/person.png")}
+          />
           <Text style={styles.ReviewName}>{name}</Text>
           <Text style={styles.ReviewRating}>{rating}</Text>
         </View>
+
         <Text style={styles.ReviewDesc}>{review}</Text>
       </View>
     );
@@ -103,7 +127,28 @@ const DoctorProfile = ({ route }) => {
         </View>
         <Text style={styles.labelHead}>About Doctor</Text>
         <Text style={styles.desc}>{doctorDetails.description}</Text>
-        <Text style={styles.labelHead}>Reviews</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+          }}
+        >
+          <Text style={styles.labelHead}>Reviews</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("giveReview", { refId })}
+          >
+            <Image
+              style={styles.add}
+              source={require("../../assets/add1.png")}
+            />
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("viewReview")}>
+            <Image
+              style={styles.add1}
+              source={require("../../assets/iconsee.png")}
+            />
+          </TouchableOpacity> */}
+        </View>
         <View style={styles.container}>
           <FlatList
             horizontal={true}
@@ -185,6 +230,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
     marginTop: 15,
+  },
+  add: {
+    marginLeft: 230,
+    marginTop: 10,
+    height: 30,
+    width: 30,
+  },
+  add1: {
+    marginLeft: 15,
+    marginTop: 10,
+    height: 30,
+    width: 30,
   },
   circular: {
     backgroundColor: "white",
