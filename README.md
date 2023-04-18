@@ -9,7 +9,7 @@ Healthcare for Nepal is a doctor appointment application that aims to make it ea
 
 <h2>Installation</h2>
 
-To get started with FruitsApp React Native, follow these steps:
+To get started with this React Native App, follow these steps:
 
     Clone the repository to your local machine
     Install dependencies using npm install
@@ -19,7 +19,17 @@ Note: Make sure you have Node.js and npm installed on your machine.
 
 <h2>Usage</h2>
 
-Once you have the development server up and running, you can open the app in an Android or iOS simulator or run it on a physical device. The app comes with a simple and intuitive user interface that allows users to browse, search, and add fruits to their cart.
+On the home page, users can explore doctors and search for popular doctors by entering their name or specialty.
+
+Click on a doctor's profile to view detailed information about the doctor, including their name, photo, contact information, department, and ratings.
+
+On the doctor profile screen, users can view reviews from other patients and leave their own review. Users can also book an appointment with the doctor directly from the profile screen.
+
+Users can communicate with doctors through the chat page, which includes a chatbot powered by ChatGPT API.
+
+Users can view their scheduled appointments and cancel or reschedule appointments directly from the schedule page.
+
+Users can access the setting/about us page to view basic information about the application and its developers, as well as send a message to the development team using the contact form.
 
 
 
