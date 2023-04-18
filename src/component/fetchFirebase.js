@@ -24,7 +24,7 @@ const Test = () => {
 
   return (
     <View style={{ margin: 100 }}>
-      <Text>Test</Text>
+      <Text>get data from firebase</Text>
       {myData.map((item) => (
         <Text>{item.name}</Text>
       ))}

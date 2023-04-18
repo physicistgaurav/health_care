@@ -45,7 +45,7 @@ const sendFirebase = () => {
         }}
       ></TextInput>
       <TouchableOpacity onPress={addField}>
-        <Text> submit</Text>
+        <Text> submit in firebase</Text>
       </TouchableOpacity>
     </View>
   );
