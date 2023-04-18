@@ -15,6 +15,8 @@ import {
 import { firebase } from "../../firebase/config";
 
 import MapView from "react-native-maps";
+import AppointmentForm from "../../component/AppointmentForm";
+import { Modal } from "react-native";
 
 const MyStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -30,6 +32,16 @@ const DoctorProfile = ({ route, navigation }) => {
 
   const [myReviews, setMyReviews] = useState([]);
   const fetchReviews = firebase.firestore().collection("reviews");
+
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const handleBookAppointment = () => {
+    setIsFormVisible(true);
+  };
+
+  const handleFormClose = () => {
+    setIsFormVisible(false);
+  };
 
   const handleFetchReviews = () => {
     setMyReviews([]);
@@ -124,6 +136,25 @@ const DoctorProfile = ({ route, navigation }) => {
               />
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: 15,
+            }}
+          >
+            <Text style={styles.consultation}>Consultation Fee</Text>
+            <Text style={styles.fee}>{doctorDetails.fee}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.BookButton}
+            onPress={handleBookAppointment}
+          >
+            <Text style={styles.BookText}>Book Appointment</Text>
+          </TouchableOpacity>
+          <Modal visible={isFormVisible} animationType="slide">
+            <AppointmentForm onClose={handleFormClose} />
+          </Modal>
         </View>
         <Text style={styles.labelHead}>About Doctor</Text>
         <Text style={styles.desc}>{doctorDetails.description}</Text>
@@ -168,19 +199,14 @@ const DoctorProfile = ({ route, navigation }) => {
 
         <Text style={styles.labelHead}>Location</Text>
         <MapView style={styles.map} region={region} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            marginTop: 15,
-          }}
-        >
-          <Text style={styles.consultation}>Consultation Fee</Text>
-          <Text style={styles.fee}>{doctorDetails.fee}</Text>
+        <View style={styles.hospitalsContainer}>
+          <Text style={styles.hospitalsHeading}>Where can you find me?</Text>
+          <Text style={styles.hospitalsList}>
+            {doctorDetails.hospitals.map(
+              (hospital, index) => `\u2022 ${hospital}\n`
+            )}
+          </Text>
         </View>
-        <TouchableOpacity style={styles.BookButton}>
-          <Text style={styles.BookText}>Book Appointment</Text>
-        </TouchableOpacity>
       </ScrollView>
     </>
   );
@@ -188,7 +214,7 @@ const DoctorProfile = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   upperCOntainer: {
-    height: 280,
+    height: 370,
     width: "100%",
     backgroundColor: "#63c3e6",
     borderBottomLeftRadius: 16,
@@ -232,7 +258,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   add: {
-    marginLeft: 230,
+    marginLeft: 280,
     marginTop: 10,
     height: 30,
     width: 30,
@@ -249,7 +275,7 @@ const styles = StyleSheet.create({
     width: 60,
     borderRadius: 50,
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 15,
@@ -321,14 +347,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 10,
-    marginTop: 20,
   },
   fee: {
     color: "green",
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 10,
-    marginTop: 20,
+  },
+  hospitalsHeading: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 10,
+    marginTop: 15,
+  },
+  hospitalsList: {
+    fontSize: 16,
+    marginLeft: 10,
+    marginTop: 10,
+    color: "#063e77",
+    fontWeight: "w600",
   },
 });
 

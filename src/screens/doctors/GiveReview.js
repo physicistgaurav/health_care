@@ -104,21 +104,53 @@ const GiveReview = ({ route }) => {
               }}
             ></TextInput>
             <Text style={styles.formtitletexts}>Rating</Text>
-            <TextInput
-              value={addRating}
-              style={styles.formtitle}
-              placeholder="Give your rating"
-              placeholderTextColor="grey"
-              keyboardType="numeric"
-              inputContainerStyle={{
-                borderBottomWidth: 0,
-              }}
-              backgroundColor="white"
-              focusColor="blue"
-              onChangeText={(reviewRating) => {
-                setaddRating(reviewRating);
-              }}
-            ></TextInput>
+            {addRating >= 1 && addRating <= 5 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setaddRating("");
+                }}
+              >
+                <TextInput
+                  value={addRating}
+                  style={styles.ratingInput}
+                  placeholder="Edit your rating"
+                  placeholderTextColor="grey"
+                  keyboardType="numeric"
+                  inputContainerStyle={{
+                    borderBottomWidth: 0,
+                  }}
+                  backgroundColor="white"
+                  focusColor="blue"
+                  onChangeText={(reviewRating) => {
+                    if (reviewRating >= 1 && reviewRating <= 5) {
+                      setaddRating(reviewRating);
+                    } else {
+                      setaddRating("");
+                    }
+                  }}
+                ></TextInput>
+              </TouchableOpacity>
+            ) : (
+              <TextInput
+                value={addRating}
+                style={styles.formtitle}
+                placeholder="Give your rating"
+                placeholderTextColor="grey"
+                keyboardType="numeric"
+                inputContainerStyle={{
+                  borderBottomWidth: 0,
+                }}
+                backgroundColor="white"
+                focusColor="blue"
+                onChangeText={(reviewRating) => {
+                  if (reviewRating >= 1 && reviewRating <= 5) {
+                    setaddRating(reviewRating);
+                  } else {
+                    setaddRating("");
+                  }
+                }}
+              ></TextInput>
+            )}
 
             <TouchableOpacity style={styles.btn} onPress={addField}>
               <FontAwesome
