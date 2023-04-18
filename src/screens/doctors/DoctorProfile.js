@@ -173,7 +173,7 @@ const DoctorProfile = ({ route, navigation }) => {
               source={require("../../assets/add1.png")}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity onPress={() => navigation.navigate("viewReview")}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("send")}>
             <Image
               style={styles.add1}
               source={require("../../assets/iconsee.png")}
