@@ -17,7 +17,7 @@ const AppContent = () => {
   const { loggedInUser } = useAuth();
   return (
     <NavigationContainer>
-      {!loggedInUser ? <AppStack /> : <GuestStack />}
+      {!!loggedInUser ? <AppStack /> : <GuestStack />}
     </NavigationContainer>
   );
 };
