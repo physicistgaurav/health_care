@@ -32,7 +32,7 @@ const AppStack = () => {
 
         <Tab.Screen
           name="messages"
-          component={SettingScreen}
+          component={MessageScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="message" size={24} color="#466eda" />
@@ -43,7 +43,7 @@ const AppStack = () => {
 
         <Tab.Screen
           name="Schedule"
-          component={MessageScreen}
+          component={ScheduleScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Icon name="calendar" size={24} color="#466eda" />
@@ -54,7 +54,7 @@ const AppStack = () => {
 
         <Tab.Screen
           name="Settings"
-          component={ScheduleScreen}
+          component={SettingScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="settings" size={24} color="#466eda" />

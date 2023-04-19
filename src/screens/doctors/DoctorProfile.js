@@ -153,7 +153,7 @@ const DoctorProfile = ({ route, navigation }) => {
             <Text style={styles.BookText}>Book Appointment</Text>
           </TouchableOpacity>
           <Modal visible={isFormVisible} animationType="slide">
-            <AppointmentForm onClose={handleFormClose} />
+            <AppointmentForm doctor={refId} onClose={handleFormClose} />
           </Modal>
         </View>
         <Text style={styles.labelHead}>About Doctor</Text>

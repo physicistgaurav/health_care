@@ -8,6 +8,8 @@ import {
   TextInput,
   Modal,
   Image,
+  Alert,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import { Calendar } from "react-native-calendars";
@@ -19,7 +21,10 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
     </SafeAreaView>
   </View>
 );
-const AppointmentForm = ({ onClose }) => {
+
+import { firebase } from "../firebase/config";
+
+const AppointmentForm = ({ onClose, doctor }) => {
   const [firstname, setFirstName] = React.useState("");
   const [lastname, setLastName] = React.useState("");
   const [address, setAddress] = React.useState("");
@@ -27,6 +32,43 @@ const AppointmentForm = ({ onClose }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+
+  // const firebaseAdd = firebase.firestore().collection("Appointments");
+  // const [data, setData] = useState({});
+
+  const addField = () => {
+    if (firstname && firstname.length > 0) {
+      const newData = {
+        firstname: firstname,
+        lastname: lastname,
+        address: address,
+        phone: phone,
+        date: selectedDate,
+        doctor: doctor.trim(),
+      };
+      console.log(newData);
+      Alert.alert("Data Sent");
+      firebase
+        .firestore()
+        .collection("Appointments")
+        .add(newData)
+        .then((res) => {
+          setFirstName("");
+          setLastName("");
+          setAddress("");
+          setPhone("");
+          setSelectedDate(null);
+          setShowModal(false);
+          Keyboard.dismiss();
+          onClose();
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      Alert.alert("Please enter your first name");
+    }
+  };
 
   const handleDayPress = (date) => {
     setSelectedDate(date.dateString);
@@ -118,7 +160,7 @@ const AppointmentForm = ({ onClose }) => {
             />
           </Modal>
         </View>
-        <TouchableOpacity style={styles.BookButton} onPress={onClose}>
+        <TouchableOpacity style={styles.BookButton} onPress={addField}>
           <Text style={styles.BookText}>Book Appointment</Text>
         </TouchableOpacity>
       </View>
