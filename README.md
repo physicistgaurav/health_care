@@ -37,6 +37,9 @@ Users can access the setting/about us page to view basic information about the a
 
 The home page is the landing page of the application. Here, users can explore doctors and search for popular doctors based on their specialty. The page features a search bar where users can enter a doctor's name or specialty to find a doctor. Additionally, users can filter doctors by their specialty, location, and availability.
 
+
+![](/readmePics/login.jpg)
+
 <h2>Doctor Profile Screen</h2>
 
 The doctor profile screen provides detailed information about a doctor. Here, users can view the doctor's name, photo, contact information, department, and ratings. The screen also features reviews from other patients who have visited the doctor, along with the ability to leave a review. Users can also book an appointment with the doctor directly from the doctor profile screen.
