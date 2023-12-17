@@ -59,8 +59,7 @@ The doctor profile screen provides detailed information about a doctor. Here, us
 
 The schedule page allows users to view their scheduled appointments. Users can also cancel or reschedule appointments directly from this page. The page features a calendar view, which allows users to view appointments by day, week, or month.
 
-![](/readmePics/schedule.jpg)
-![](/readmePics/schedule2.jpg)
+hhhiijii
 
 <h2>Chat Page</h2>
 
